@@ -1,0 +1,77 @@
+{
+  "schema": "ripple-binding-provenance-v1",
+  "upstream_repository": "https://huggingface.co/ricursiveAI/Ripple-65B-Preview-NVFP4",
+  "upstream_revision": "99eea4477a001a41b86914e41feb4b2ed86105e5",
+  "upstream_license": "Apache-2.0",
+  "vendored_files": {
+    "configuration_ricursive.py": "002cb3915be9685eb962d617623bec14d45b5d6b5d46e689fac98a3b38cb6cf6",
+    "modeling_ricursive.py": "f83865ef643e273a6c9aecf1575e85c95ad01fd995b1e43c3c7a892765006bb3",
+    "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+    "config.json": "46e68394f1ceda2385c2458b883957510c07cc60cfb8ffc6a898be70507a126f"
+  },
+  "binding_reference": "gemma-particle-sliders (MIT adaptation reference; source identity below)",
+  "binding_reference_sha256": "b791ee0b2b74fe8ef4cb82406dd22e38cb356d421e4b0ca8e3a7f15fe882728b",
+  "binding_reference_license": "MIT",
+  "binding_reference_origins": {
+    "schema": "gemma-binding-provenance-v1",
+    "reference_repository": "https://github.com/HyperGAN/tinyqwen-particle-sliders",
+    "reference_git_head": "16be9a1d7c9f7363985549c54a75c8b62a87625d",
+    "reference_dirty": false,
+    "reference_file_sha256": {
+      "src/tinyqwen_shared_preview/binding.py": "1d0b219561428a5c5a4bd7335ead204f9cc0e50338fb67708758cb63a05da76f",
+      "src/tinyqwen_shared_preview/learning_rates.py": "7f6ad71e970fc4e9cf9bdce078be3268c6af4ff8e818073e21b8279489c2b307"
+    },
+    "reference_current_main": "fa19c943da52a009fe03d380cbf5871ec4971a7b",
+    "reference_license": "MIT",
+    "core_commit": "5d68473a098801ee1ab3ebbb12463daef51c6346",
+    "modifications": [
+      "Gemma4 real random architecture host",
+      "Gemma tied/shared KV aware target attachment",
+      "new independent product and protocol identities",
+      "pretrained training fails closed",
+      "local offline SWE prototype with no trained adapter"
+    ],
+    "qualification": "CPU software fixture; no pretrained quality or competition result",
+    "remote_created": false
+  },
+  "qualification": "Shared CPU architecture lifecycle plus one complete real packed NVFP4 projection reference; no full-model, GPU or pretrained quality qualification",
+  "experimental_packed_reference": {
+    "repository": "https://github.com/NVIDIA/Model-Optimizer",
+    "version": "0.46.0",
+    "commit": "43fd41a58d52c4e6e5dec1d1ff5989ecc737ae1a",
+    "reference_source_sha256": "0340799307f7883a6698019a6e55b9b2666159c5e6bcbc1f6cd3aad944f7eb77",
+    "reference_source_license": "Apache-2.0",
+    "reference_source_vendored_in_package": false,
+    "real_projection": "model.layers.0.mlp.gate_proj",
+    "real_packed_weight_sha256": "76005cad2cd801a2352a8254ecc94e3a15cd61cb5b4c16f7e160e50d4f05fb78",
+    "weights_shipped_in_package": false,
+    "qualification": "Complete real projection CPU reference forward/VJP; no full-model or GPU qualification"
+  },
+  "streaming_candidate": {
+    "version": "0.3.0",
+    "status": "source prepared; final validation HOLD for host resources",
+    "official_block_index": 0,
+    "official_block_bytes": 689480218,
+    "official_block_tensor_count": 24,
+    "initial_five_cpu_parity_tests_passed": true,
+    "expanded_final_suite_completed": false,
+    "complete_real_block_backward_qualified": false,
+    "released_5120_vector_gate_preserved": true,
+    "gpu_scheduler_route_verified": false,
+    "gpu_started": false
+  },
+  "continuous5120_proposal": {
+    "status": "source artifact audited; product runtime unqualified",
+    "profile": "source-801ae1e-continuous-v1",
+    "commit": "801ae1ead8f88b88eca8f5398137e3e1bc01ad36",
+    "wheel_sha256": "263f8edead2f972b87d03a93780e95929c8c03d2989f3770313b88cb3699c9d0",
+    "source_file_count": 51,
+    "metadata_only_tests_passed": 13,
+    "native_factory_wiring_enabled": false,
+    "runtime_admitted": false,
+    "installed_environment_modified": false,
+    "heavy_probe_retried": false
+  },
+  "binding_reference_commit": "d053bfa883ff853d10a80acf1b4562adbdc93459",
+  "repository": "https://github.com/HyperGAN/ripple-particle-sliders"
+}

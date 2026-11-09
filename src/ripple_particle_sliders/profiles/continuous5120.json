@@ -1,0 +1,25 @@
+{
+  "schema": "ripple-continuous5120-source-proposal-v1",
+  "status": "UNQUALIFIED_PRODUCT_PROPOSAL",
+  "training_enabled": false,
+  "cohort": "ripple-nvfp4-pg094-source801-continuous5120-v1-candidate",
+  "response_domain": "continuous_vector",
+  "response_shape": [
+    1,
+    5120
+  ],
+  "condition_width": 5124,
+  "pg_version": "0.9.4",
+  "pg_source_profile": "source-801ae1e-continuous-v1",
+  "penalty_input_domain": "continuous",
+  "core_commit": "5d68473a098801ee1ab3ebbb12463daef51c6346",
+  "core_version": "0.12.0",
+  "pg_source_commit": "801ae1ead8f88b88eca8f5398137e3e1bc01ad36",
+  "pg_source_repository": "https://github.com/255BITS/ParticleGAN",
+  "pg_wheel_sha256": "263f8edead2f972b87d03a93780e95929c8c03d2989f3770313b88cb3699c9d0",
+  "core_profile_manifest_sha256": "ecd0db966cfe0f20b06e3df2d47d6b1420493d3ccabb0177fba5a86d5f533400",
+  "activation_gradient": "explicit W4A4 identity STE; not derivative of rounding",
+  "runtime_qualified": false,
+  "gpu_admitted": false,
+  "quality_qualified": false
+}

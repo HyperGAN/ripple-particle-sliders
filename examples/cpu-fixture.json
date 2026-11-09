@@ -1,0 +1,33 @@
+{
+  "backend": "ripple-particle-sliders",
+  "cohort": "ripple-pg094-hypergan-hndl-v1-cpu-fixture",
+  "options": {
+    "dummy": true,
+    "fixture": true,
+    "fixture_width": 16,
+    "rows": [
+      {
+        "neutral_ids": [
+          1,
+          2
+        ],
+        "positive_ids": [
+          1,
+          3
+        ]
+      },
+      {
+        "neutral_ids": [
+          4,
+          5
+        ],
+        "positive_ids": [
+          4,
+          6
+        ]
+      }
+    ],
+    "seed": 7,
+    "steps": 4
+  }
+}

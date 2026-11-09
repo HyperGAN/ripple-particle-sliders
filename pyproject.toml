@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ripple-particle-sliders"
+version = "0.3.0"
+description = "Ripple NVFP4 compatibility assessment and shared ParticleGAN architecture binding"
+readme = "README.md"
+license = "MIT AND Apache-2.0"
+license-files = ["LICENSE", "src/ripple_particle_sliders/vendor/LICENSE"]
+requires-python = ">=3.11,<3.15"
+dependencies = [
+  "particle-sliders-core[hypergan-hndl] @ git+https://github.com/HyperGAN/particle-sliders.git@5d68473a098801ee1ab3ebbb12463daef51c6346#subdirectory=packages/particle-sliders-core",
+  "transformers==5.15.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[project.entry-points."particle_sliders.response_backends"]
+ripple-particle-sliders = "ripple_particle_sliders.binding:BACKEND"
+
+[project.entry-points."particle_sliders.inference_backends"]
+ripple-particle-sliders = "ripple_particle_sliders.binding:INFERENCE"
+
+[project.entry-points."particle_sliders.training_profiles"]
+ripple-cpu-fixture = "ripple_particle_sliders.training_profile:TRAINING_PROFILE"
+
+[project.scripts]
+ripple-nvfp4-check = "ripple_particle_sliders.compatibility:main"
+ripple-continuous-profile-audit = "ripple_particle_sliders.continuous_profile:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ripple_particle_sliders = ["sources.lock.json", "vendor/config.json", "vendor/LICENSE", "profiles/*.json"]
