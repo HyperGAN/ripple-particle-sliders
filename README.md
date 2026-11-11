@@ -157,3 +157,11 @@ used by the Gemma/TinyQwen integrations. Independent source is MIT; the unmodifi
 vendored Ripple model code/config is Apache-2.0, with its license included.
 See [PROVENANCE.json](PROVENANCE.json) and [publication scope](PUBLICATION.md).
 This is public source, not a full-model training or native qualification release.
+
+
+## Opt-in native ParticleGAN 0.9.5 backend
+
+The additive [native95 owner API and how-to](backends/ripple-native95/README.md)
+preserves this historical package and its defaults. See its
+[measured learning-rate scope](backends/ripple-native95/LEARNING-RATES.md)
+before interpreting the provisional garden result.

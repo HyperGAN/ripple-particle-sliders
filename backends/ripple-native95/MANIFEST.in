@@ -1,0 +1,3 @@
+include README.md LEARNING-RATES.md
+include tests/fresh95_text_owner_check.py
+recursive-include profiles *.py *.json *.md
