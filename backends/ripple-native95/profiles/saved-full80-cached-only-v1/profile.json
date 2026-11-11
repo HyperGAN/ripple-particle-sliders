@@ -1,0 +1,21 @@
+{
+  "schema": "Ripple095-saved-full80-cached-only-Source-assets-v1",
+  "status": "literal_Source_assets_not_registered_factory",
+  "runtime_profile": "ripple-native5120-NVFP4-STE-continuous-pg095-hndl-v1",
+  "factory": {
+    "file": "cache_factory.py",
+    "bytes": 4282,
+    "sha256": "c7c5141a46252714a7bf4aa01ef365c637c57a3ab4cdee6da8d52a325f781b96"
+  },
+  "cached_only_companion": {
+    "file": "durable_teachers.py",
+    "bytes": 2636,
+    "sha256": "b34011776c560783a9e4e8c166a5f49690b01a07b3aea072802ab3fd5aa8b74c"
+  },
+  "external_original_context_required": true,
+  "default_factory_replaced": false,
+  "FULL_manifest_transplant": false,
+  "actual_new_build": null,
+  "actual_new_tests": null,
+  "actual_new_native": null
+}
