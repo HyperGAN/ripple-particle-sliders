@@ -1,0 +1,36 @@
+{
+  "schema": "installed-owner-api-software-validation-v1",
+  "date_UTC": "2026-11-11",
+  "tested_code_commit": "7e3b0e859e6e09fe57124378e28bfdbca2f6aa9c",
+  "actual_executor_handle": 68434,
+  "actual_outer_exit_code": 0,
+  "actual_reap_chunk": "984dff",
+  "actual_terminal_sha256": "7bed482a94e6150f161ba4d1c00f0f19ced31358e45e261bfc2d372aba556fa5",
+  "actual_result_sha256": "cd69af460c04da0f0406b3387ce01b39217f9f060e6c866c9a0eb6ee75ba9ccc",
+  "distribution": "ripple-native95-candidate",
+  "version": "0.0.1",
+  "counts": {
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "test_nodes": [
+    "fresh95_text_owner_check.py::test_text_forwarding_filters_none_and_preserves_original_owner",
+    "fresh95_text_owner_check.py::test_non_none_references_refused_before_open_or_native_work",
+    "fresh95_text_owner_check.py::test_render_failure_restores_original_observation_and_closes",
+    "fresh95_text_owner_check.py::test_original_failed_close_blocks_work_and_remains_retryable"
+  ],
+  "exact_installed_Source_and_RECORD_verified": true,
+  "retained_core_commit": "f7001a821c89df6c2e8473da4f6914db45516aeb",
+  "neutral_directory": true,
+  "source_PYTHONPATH": false,
+  "pytest_configuration": "/dev/null",
+  "blocked_calls": [],
+  "GPU_used": false,
+  "pretrained_model_calls": 0,
+  "optimizer_updates": 0,
+  "old_tests_or_proofs_replayed": false,
+  "full_native_installed_package_execution_verified": false,
+  "LR_selection_authority": false
+}

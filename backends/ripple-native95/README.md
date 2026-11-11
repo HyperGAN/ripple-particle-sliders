@@ -100,7 +100,7 @@ The [saved cached-only profile assets](profiles/saved-full80-cached-only-v1/READ
 
 ## New facade software cases
 
-Four new synthetic CPU cases are authored in `tests/fresh95_text_owner_check.py` and remain UNRUN in this Source proposal. They cover forwarding/`None` filtering and original owner identity, pre-work reference refusal, actual core observation restoration/close after callback failure, and retry after a failed close. They do not load Ripple weights, collect teachers or perform optimizer updates. The opt-in filename stays outside default pytest discovery.
+All four new synthetic CPU cases in `tests/fresh95_text_owner_check.py` passed on 2026-11-11 against the genuine installed wheel, from a neutral directory with exact Source/RECORD checks and no source `PYTHONPATH`. See the [software validation record](validation/installed-owner-api-20261111.json). They cover forwarding/`None` filtering and original owner identity, pre-work reference refusal, actual core observation restoration/close after callback failure, and retry after a failed close. They do not load Ripple weights, collect teachers or perform optimizer updates. The opt-in filename stays outside default pytest discovery.
 
 With the compatible dependencies and the genuine wheel installed, a future owner may explicitly invoke the fixture from a neutral directory, without a source `PYTHONPATH`:
 
@@ -108,4 +108,4 @@ With the compatible dependencies and the genuine wheel installed, a future owner
 python -m pytest -c /dev/null /absolute/checkout/backends/ripple-native95/tests/fresh95_text_owner_check.py
 ```
 
-No test, build, install or native execution was performed while preparing this publication Source.
+The offline wheel build and installation completed; the installed helper checks above passed. Full pretrained/native execution through this public wheel remains unverified. The saved campaign runs retain their original execution owners and dependency composition.
