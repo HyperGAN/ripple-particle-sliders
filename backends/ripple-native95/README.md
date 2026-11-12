@@ -70,7 +70,7 @@ with admitted(owner):
         RAW = session.export_inference(new_raw_path, selection="raw")
 ```
 
-`checkpoint()` returns the typed whole-game packet: game/critic/particles, optimizers and scalar statistics, RNG, recipe/config, cache and initialization identity. Resume it through the same factory/config and continue only genuinely missing updates. `export_inference()` returns the distinct native-only RAW artifact; it reconstructs no game, critic, teacher rows or initializer. Keep new destinations and durable call/commit accounting in the owning runner. The rates shown are a declared starting recipe, not a completed cross-rate recommendation; see [LEARNING-RATES.md](LEARNING-RATES.md).
+`checkpoint()` returns the typed whole-game packet: game/critic/particles, optimizers and scalar statistics, RNG, recipe/config, cache and initialization identity. Resume it through the same factory/config and continue only genuinely missing updates. `export_inference()` returns the distinct native-only RAW artifact; it reconstructs no game, critic, teacher rows or initializer. Keep new destinations and durable call/commit accounting in the owning runner. The code above retains G012 as a declared starting recipe. The completed one-garden RAW32 comparison, exact measured recipes and any tie are recorded in [LEARNING-RATES.md](LEARNING-RATES.md); no product default is changed.
 
 ## RAW finished-text inference
 
@@ -109,3 +109,25 @@ python -m pytest -c /dev/null /absolute/checkout/backends/ripple-native95/tests/
 ```
 
 The offline wheel build and installation completed; the installed helper checks above passed. Full pretrained/native execution through this public wheel remains unverified. The saved campaign runs retain their original execution owners and dependency composition.
+
+## Saved finished-output comparison · 32 updates
+
+This is a completed finite comparison in the captured profile. One matched garden native text case, original full80-layer/width5120/rank8/h128/b2/seed7 profile. The old OFF first be32c89f intensity0 and G012 first5fdcb603 intensity3/gain3 are reused literally; only the genuinely missing G001 ON first is new. Frozen Qwen3VL text-only ordinal0..4 intensity difference, not probability, calibrated semantic accuracy or broader prompt-bank completion. Original bank0.03 remains active; all saved initial tensors/cache/RNG and interrupted UNKNOWN attempts remain retained.
+
+| Arm | G | Actual D | Actual bank | ON minus matched OFF |
+| --- | --- | --- | --- | --- |
+| G012 | 0.012 | 0.018000000000000002 | 0.03 | 3 |
+| G001 | 0.001 | 0.018000000000000002 | 0.03 | 2 |
+
+Numerical best-tested set: **G012**. This identifies the higher measured scalar in this finite comparison. It does not establish a global optimum, useful effect, calibrated accuracy, categorical health or a product default.
+
+Use the existing [native HOW](https://github.com/HyperGAN/ripple-particle-sliders/blob/main/backends/ripple-native95/README.md) with the same model/source, cache/conditioning, native geometry, precision, rank8, batch2, horizon128 and seed7. Reuse the saved RAW32 artifacts; RAW is inference-only. An exact FULL resumes optimizer groups/scalar statistics, bank when present, streams and RNG. Fresh scoped initialization runs once before fresh optimizers; FULL/RAW loading does not initialize again.
+
+Exact optimizer-option tuples for comparable future use:
+
+- G012: `{"lr":0.012,"d_lr_mult":1.5,"ema_decay":null,"prior_lr_mult":2.5}`.
+- G001: `{"lr":0.001,"d_lr_mult":18.0,"ema_decay":null,"prior_lr_mult":30.0}`.
+
+Both arms used 32 actual updates within the unchanged h128 schedule; `ema_decay:null` and RAW/no EMA are retained. one garden case/raw0..4 text diagnostic; oldOFF0/G012ON3 reused. Automatic override/default fields remain null. No repeated search, first, extra confirmation or new qualification campaign is required to record this scoped comparison.
+
+Evidence: Root adoption SHA256 `093d2e6eb557d7ebb594c257c42e03af429d29f2dd849152479faaf26dea02b5`; measurement SHA256 `9b8a2a5884dd8ae337cb47310c81895ea0d9f2c65a0e3ce79329e7e2070d2e73`. All older outcomes, ties, firsts and interrupted UNKNOWN attempts stay unchanged.
