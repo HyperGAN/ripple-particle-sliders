@@ -1,5 +1,7 @@
 # Ripple particle sliders
 
+**Calculated memory:** Packed one-block streaming: **10 GiB GPU / 12 GiB host** for batch 2/128-token training; finished text **6 GiB GPU**. This does not require 65B dense weights resident. [Full memory ledger and limits](MEMORY.md). These are planning estimates, not measured peaks.
+
 **Experimental source publication.** v0.3 streaming source is experimental; its full runtime suite was held for memory and is not qualified. Historical44 tests apply to v0.2; metadata audits and earlier packed-projection CPU work do not establish full-model NVFP4 or GPU qualification.
 
 See [PUBLICATION.md](PUBLICATION.md) for sanitation, lineage and current CPU/CI limits.
