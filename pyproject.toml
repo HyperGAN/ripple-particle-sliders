@@ -11,7 +11,7 @@ license = "MIT AND Apache-2.0"
 license-files = ["LICENSE", "src/ripple_particle_sliders/vendor/LICENSE"]
 requires-python = ">=3.11,<3.15"
 dependencies = [
-  "particle-sliders-core[hypergan-hndl] @ git+https://github.com/HyperGAN/particle-sliders.git@5d68473a098801ee1ab3ebbb12463daef51c6346#subdirectory=packages/particle-sliders-core",
+  "particle-sliders-core[hypergan-hndl] @ git+https://github.com/HyperGAN/particle-sliders.git@119d7e0559bacdc49847961c1b243ac08daa013c#subdirectory=packages/particle-sliders-core",
   "transformers==5.15.0",
 ]
 
