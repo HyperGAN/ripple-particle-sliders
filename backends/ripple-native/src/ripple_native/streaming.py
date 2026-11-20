@@ -193,7 +193,7 @@ class StreamedBlock(nn.Module):
             raise ValueError('incomplete block cache')
 
     def forward(self, hidden_states, **kwargs):
-        if torch.is_grad_enabled() and not getattr(self, '_pg09_scale_checkpoint', False):
+        if torch.is_grad_enabled() and not getattr(self, '_adapter_scale_checkpoint', False):
             raise RuntimeError('streaming gradients require shared scale-capturing block checkpoint')
         with self.store.block(self.index, hidden_states.device) as values:
             dense = {name: values[f'model.layers.{self.index}.{name}'] for name in self.dense_names}

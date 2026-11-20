@@ -1,11 +1,11 @@
 """New native5120 cohort; old094 packets/fixtures keep their original namespace."""
 from pathlib import Path
 import hashlib,json,math
-CORE_REVISION='41f6066f2d2644902670d5eb736de052e1a70553'
-BACKEND='ripple_native95'
-SOURCE_PROFILE='ripple-native5120-NVFP4-STE-continuous-pg095-hndl-v1'
+CORE_REVISION='c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78'
+BACKEND='ripple_native'
+SOURCE_PROFILE='ripple-native5120-NVFP4-STE-continuous-engine-hndl-v1'
 INITIALIZATION_POLICY='ripple-host-RMS-QR-zero-up-bank-R2-std1-v1'
-PROTOCOL='ripple095-native-last-hidden5120-fullvocab-finished-text-v1'
+PROTOCOL='ripple-engine-native-last-hidden5120-fullvocab-finished-text-v1'
 WEIGHT_POLICY='raw-no-weight-EMA'
 MODEL='ricursiveAI/Ripple-65B-Preview-NVFP4'
 REVISION='99eea4477a001a41b86914e41feb4b2ed86105e5'
@@ -21,7 +21,7 @@ def rate_overrides(options):
 
 def validate_profile(options):
     if 'ema_decay'not in options or options['ema_decay']is not None or options.get('ema')is not None:raise ValueError('explicit ema_decay=None; all weight EMA refused before allocation')
-    if(options.get('source_profile'),options.get('initialization_policy'),options.get('pg_version'),options.get('pg_source_profile'),options.get('penalty_input_domain'))!=(SOURCE_PROFILE,INITIALIZATION_POLICY,'0.9.5','release-0.9.5','continuous'):
+    if(options.get('source_profile'),options.get('initialization_policy'),options.get('pg_version'),options.get('pg_source_profile'),options.get('penalty_input_domain'))!=(SOURCE_PROFILE,INITIALIZATION_POLICY,'0.11.0','release-0.11.0','continuous'):
         raise ValueError('explicit new095/native5120/continuous initialization profile required')
     rate_overrides(options)
 
@@ -29,7 +29,7 @@ def validate_options(options,*,training=False):
     allowed=set(DEFAULTS)|{'cache_dir','cache_manifest_sha256','device'}
     if training:allowed|={'training_file','teacher_cache','steps','batch','seed','ema_decay','source_profile','initialization_policy','pg_version','pg_source_profile','penalty_input_domain','lr','d_lr_mult','prior_lr_mult'}
     if training:validate_profile(options)
-    if set(options)-allowed:raise ValueError('unknown Ripple095 option; no projection/precision/backend fallback')
+    if set(options)-allowed:raise ValueError('unknown Ripple native option; no projection/precision/backend fallback')
     a=architecture(options)
     if a!=DEFAULTS or any(type(a[k])is not int for k in('rank','particles','particle_dim','response_width','chunk_rows')):raise ValueError('preserve full original architecture/rank8/128x4/chunk256/W4A4-STE')
     if options.get('device')not in('cpu','cuda:0','cuda:1'):raise ValueError('explicit single execution device required')
@@ -48,7 +48,8 @@ def validate_options(options,*,training=False):
 def validate_installed_core():
     from importlib import metadata
     lock=json.loads(Path(__file__).with_name('current_core.json').read_text());d=metadata.distribution('particle-sliders-core')
-    if d.version!=lock['version']or lock['commit']!=CORE_REVISION:raise ValueError('exact current core0.14.1 source required')
+    if d.version!=lock['version']or lock['commit']!=CORE_REVISION:raise ValueError('exact current core0.15.1 source required')
     for name,sha in lock['checked_api_files'].items():
-        if file_hash(d.locate_file('particle_sliders/'+name))!=sha:raise ValueError('current core Source differs:'+name)
-    if metadata.version('transformers')!='4.57.6'or metadata.version('particlegan')!='0.9.5':raise ValueError('explicit new TF4.57.6/PG095 profile required; no old qualification transfer')
+        source = Path(__file__).with_name(name) if name.startswith('fibo_') else d.locate_file('particle_sliders/'+name)
+        if file_hash(source) != sha: raise ValueError('current source differs: ' + name)
+    if metadata.version('transformers')!='4.57.6'or metadata.version('particlegan')!='0.11.0':raise ValueError('explicit new TF4.57.6/current engine profile required; no old qualification transfer')

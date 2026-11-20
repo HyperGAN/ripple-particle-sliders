@@ -25,7 +25,7 @@ class DeclarationTests(unittest.TestCase):
         plan = profile.proposal()
         options = profile.validate_options(plan)
         self.assertEqual(plan['response_shape'], [1,5120])
-        self.assertEqual(options, dict(pg_version='0.9.4', pg_source_profile=profile.PROFILE,
+        self.assertEqual(options, dict(pg_version='0.11.0', pg_source_profile=profile.PROFILE,
                                        penalty_input_domain='continuous'))
         self.assertFalse(plan['training_enabled'])
         self.assertNotIn('torch', sys.modules)
@@ -80,7 +80,7 @@ class SourceArtifactTests(unittest.TestCase):
         cls.wheel = Path(os.environ['RIPPLE_CONTINUOUS_WHEEL'])
         if profile.digest(cls.wheel) != profile.WHEEL_SHA256:
             raise ValueError('metadata fixture requires the exact known source archive')
-        cls.manifest = json.loads((cls.core/'pg094_continuous.json').read_text())
+        cls.manifest = json.loads((cls.core/'engine_release.json').read_text())
         cls.origin = dict(url='https://github.com/HyperGAN/particle-sliders.git',
             subdirectory='packages/particle-sliders-core',
             vcs_info=dict(vcs='git',commit_id=profile.CORE_COMMIT))
@@ -100,7 +100,7 @@ class SourceArtifactTests(unittest.TestCase):
                     target.write_bytes(archive.read(name))
 
     def audit(self, pg=None, **kwargs):
-        values = dict(core_version='0.12.0', core_origin=self.origin, pg_version='0.9.4',
+        values = dict(core_version='0.15.1', core_origin=self.origin, pg_version='0.11.0',
                       candidate_wheel=self.wheel)
         values.update(kwargs)
         return profile.audit_files(self.core, pg or self.pg, **values)
@@ -109,15 +109,15 @@ class SourceArtifactTests(unittest.TestCase):
         result = profile.audit_wheel(self.wheel,self.manifest)
         self.assertTrue(result['exact_archive'])
         self.assertTrue(result['source_closure_match'])
-        self.assertEqual(result['metadata_version'],'0.9.4')
+        self.assertEqual(result['metadata_version'],'0.11.0')
         self.assertFalse(result['qualified_for_runtime'])
 
-    def test_installed_release_is_not_the_continuous_candidate(self):
+    def test_installed_release_matches_the_continuous_profile(self):
         result = self.audit()
         self.assertTrue(result['core_sources_match'])
         self.assertTrue(result['installed_matches_released_source'])
-        self.assertFalse(result['installed_matches_candidate'])
-        self.assertEqual(result['differences']['changed'],['bispf.py','recipes.py'])
+        self.assertTrue(result['installed_matches_candidate'])
+        self.assertEqual(result['differences']['changed'],[])
         self.assertFalse(result['runtime_admitted'])
 
     def test_exact_snapshot_passes_only_source_checks(self):
@@ -135,7 +135,7 @@ class SourceArtifactTests(unittest.TestCase):
         sys.dont_write_bytecode = True
         try:
             for label, path in [('released',self.pg/'recipes.py'),
-                                ('source801',self.snapshot/'recipes.py')]:
+                                ('reviewed',self.snapshot/'recipes.py')]:
                 name = '_ripple_recipe_metadata_'+label
                 spec = importlib.util.spec_from_file_location(name,path)
                 module = importlib.util.module_from_spec(spec)
@@ -177,9 +177,9 @@ class SourceArtifactTests(unittest.TestCase):
             def read_text(self,name): return json.dumps(SourceArtifactTests.origin)
         old = sys.argv
         try:
-            for pg_root, code in [(self.pg,2),(self.snapshot,0)]:
-                distributions={'particle-sliders-core':Distribution(self.core,'0.12.0'),
-                               'particlegan':Distribution(pg_root,'0.9.4')}
+            for pg_root, code in [(self.pg,0),(self.snapshot,0)]:
+                distributions={'particle-sliders-core':Distribution(self.core,'0.15.1'),
+                               'particlegan':Distribution(pg_root,'0.11.0')}
                 output=io.StringIO()
                 sys.argv=['ripple-continuous-profile-audit','--candidate-wheel',str(self.wheel)]
                 with patch.object(profile.metadata,'distribution',side_effect=distributions.__getitem__), contextlib.redirect_stdout(output):

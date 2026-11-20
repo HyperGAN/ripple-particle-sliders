@@ -2,7 +2,7 @@
 from pathlib import Path
 import hashlib,json,os,uuid
 import torch
-from particle_sliders.pg09_audio import AudioRow,PreparedAudioResponse,audio_conditions
+from particle_sliders.audio import AudioRow,PreparedAudioResponse,audio_conditions
 from .contracts import digest,file_hash
 
 def read_rows(path,vocab):
@@ -22,7 +22,7 @@ def record(path):
 
 def teachers(native,options,construction):
     path=Path(options['teacher_cache']);rows=read_rows(options['training_file'],native.model.config.vocab_size)
-    identity=dict(schema='Ripple095-original-native-teachers-v1',manifest_sha256=options['cache_manifest_sha256'],
+    identity=dict(schema='Ripple-engine-original-native-teachers-v1',manifest_sha256=options['cache_manifest_sha256'],
         rows=[dict(neutral_ids=list(r.neutral_ids),positive_ids=list(r.positive_ids))for r in rows],
         numerical_profile=native.runtime.identity['numerical_profile'])
     if path.exists():

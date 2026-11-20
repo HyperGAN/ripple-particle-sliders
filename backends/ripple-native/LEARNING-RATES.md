@@ -1,4 +1,4 @@
-# Ripple native95 learning-rate scope
+# Ripple native learning-rate scope
 
 The two saved RAW32 arms below have a completed finite comparison on one matched garden case. Preserve all historical public results and saved current095 cohorts; this record changes no default, initializer, cache, runtime or cohort.
 
@@ -24,7 +24,7 @@ This is a completed finite comparison in the captured profile. One matched garde
 
 Numerical best-tested set: **G012**. This identifies the higher measured scalar in this finite comparison. It does not establish a global optimum, useful effect, calibrated accuracy, categorical health or a product default.
 
-Use the existing [native HOW](https://github.com/HyperGAN/ripple-particle-sliders/blob/main/backends/ripple-native95/README.md) with the same model/source, cache/conditioning, native geometry, precision, rank8, batch2, horizon128 and seed7. Reuse the saved RAW32 artifacts; RAW is inference-only. An exact FULL resumes optimizer groups/scalar statistics, bank when present, streams and RNG. Fresh scoped initialization runs once before fresh optimizers; FULL/RAW loading does not initialize again.
+Use the existing [native HOW](https://github.com/HyperGAN/ripple-particle-sliders/blob/main/backends/ripple-native/README.md) with the same model/source, cache/conditioning, native geometry, precision, rank8, batch2, horizon128 and seed7. Reuse the saved RAW32 artifacts; RAW is inference-only. An exact FULL resumes optimizer groups/scalar statistics, bank when present, streams and RNG. Fresh scoped initialization runs once before fresh optimizers; FULL/RAW loading does not initialize again.
 
 Exact optimizer-option tuples for comparable future use:
 

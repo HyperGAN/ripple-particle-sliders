@@ -1,6 +1,6 @@
-# Ripple native95 owner API
+# Ripple native owner API
 
-This opt-in subproject exposes the captured `ripple_native95` backend for the full original Ripple-65B Preview NVFP4 revision. It leaves the repository's historical `ripple_particle_sliders` package, commands, defaults and cohorts unchanged. Use a separate environment: this profile requires Transformers 4.57.6, whereas the historical root package pins a different stack.
+This opt-in subproject exposes the captured `ripple_native` backend for the full original Ripple-65B Preview NVFP4 revision. It leaves the repository's historical `ripple_particle_sliders` package, commands, defaults and cohorts unchanged. Use a separate environment: this profile requires Transformers 4.57.6, whereas the historical root package pins a different stack.
 
 The backend retains all 80 blocks, all 320 Q/K/V/O adapter branches, rank/alpha 8, 128×4 particles, full 5120-wide responses, chunk256 and the original W4A4 activation identity-STE / BF16 reference GEMM path. This is not native FP4 TensorCore arithmetic. Frozen model/cache files and tokenizer assets are not distributed here. Source exposure and the retained small software observations do not qualify a future installed wheel, every full native workload, or output quality.
 
@@ -9,21 +9,24 @@ The backend retains all 80 blocks, all 320 Q/K/V/O adapter branches, rank/alpha 
 From this repository checkout, in an isolated compatible environment:
 
 ```sh
-python -m pip install ./backends/ripple-native95
+python -m pip install ./backends/ripple-native
 ```
 
-The subproject pins ParticleGAN 0.9.5 and the exact public core `f7001a821c89df6c2e8473da4f6914db45516aeb` with its `fibo-hndl` extra. That core changes packaging metadata from parent `41f6066f2d2644902670d5eb736de052e1a70553`; the twelve required core Source leaves match `current_core.json` byte for byte. The unchanged lock deliberately records the parent runtime identity and core version 0.14.1. A newer version number alone is insufficient. Do not copy modules onto `PYTHONPATH`, edit guards, or mix this profile with the root package's dependencies.
+This subproject pins ParticleGAN 0.11.0 and core 0.15.1 at
+`c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78`. Its source lock checks the
+installed core and the product-owned HNDL binding. Use the original
+repository revision and pins to read earlier cohort files.
 
 ## Supply authenticated offline inputs and a real owner
 
-The caller supplies the complete original model tensor-cache directory and its exact `manifest.json` SHA256, authenticated tokenizer assets, the original matched token-row JSON, and an already completed matching teacher cache. Token rows are a JSON list of objects with exactly `neutral_ids` and `positive_ids`; each is a distinct, complete in-vocabulary sequence of 1–128 tokens. The teacher cache has schema `Ripple095-original-native-teachers-v1`, native Source/numerical identity and one full FP32 `(1,5120)` neutral/target pair per row. Do not reconstruct or relabel teacher results from an incomplete attempt.
+The caller supplies the complete original model tensor-cache directory and its exact `manifest.json` SHA256, authenticated tokenizer assets, the original matched token-row JSON, and an already completed matching teacher cache. Token rows are a JSON list of objects with exactly `neutral_ids` and `positive_ids`; each is a distinct, complete in-vocabulary sequence of 1–128 tokens. The teacher cache has schema `Ripple-engine-original-native-teachers-v1`, native Source/numerical identity and one full FP32 `(1,5120)` neutral/target pair per row. Do not reconstruct or relabel teacher results from an incomplete attempt.
 
 The original ordinary factory can collect teachers on a *fresh* construction if its teacher file is absent. The examples below require the completed file before opening. Strict FULL restore refuses a missing or changed cache. No teacher collector is invoked by these instructions.
 
 CUDA requires a runner-owned `OwnedCUDAAdmission`. The runner acquires and retains two real physical shared leases plus one role-exclusive lease, authenticates its own receipt, maps the logical device to the actual physical UUID, and supplies a live checker covering its caps, floors, lock modes and lifetime. The backend checks held FD/path identities and the actual CUDA UUID; it does not create resource admission. Keep the admission context and every lease alive through construction, work and close. Receipt field names describe evidence, not permission to invent it.
 
 ```python
-from ripple_native95.ownership import HeldLease, OwnedCUDAAdmission
+from ripple_native.ownership import HeldLease, OwnedCUDAAdmission
 
 # Every value below comes from your runner's genuine admitted lifetime.
 owner = OwnedCUDAAdmission(
@@ -44,8 +47,8 @@ Resolve fresh versus restore before opening. Keep the exact configuration, paths
 
 ```python
 from pathlib import Path
-from ripple_native95 import factory
-from ripple_native95.ownership import admitted
+from ripple_native import factory
+from ripple_native.ownership import admitted
 
 teacher_path = Path(completed_teacher_cache).absolute()
 if not teacher_path.is_file():
@@ -74,10 +77,10 @@ with admitted(owner):
 
 ## RAW finished-text inference
 
-Use the additive public text facade. The captured core's generic `.render()` passes an `images=None` keyword that the unchanged Ripple text callbacks do not accept. The facade follows the existing successful text call sequence while retaining the original backend/factory identity, core observation/RNG restoration and retryable cleanup. It lives in the sibling `ripple_native95_public` namespace so it cannot change the original backend's recursive Source identity.
+Use the additive public text facade. The captured core's generic `.render()` passes an `images=None` keyword that the unchanged Ripple text callbacks do not accept. The facade follows the existing successful text call sequence while retaining the original backend/factory identity, core observation/RNG restoration and retryable cleanup. It lives in the sibling `ripple_native_public` namespace so it cannot change the original backend's recursive Source identity.
 
 ```python
-from ripple_native95_public.text_api import open_text_inference
+from ripple_native_public.text_api import open_text_inference
 
 request = dict(ids=complete_prompt_token_ids, max_new_tokens=64)
 with admitted(owner):
@@ -100,12 +103,12 @@ The [saved cached-only profile assets](profiles/saved-full80-cached-only-v1/READ
 
 ## New facade software cases
 
-All four new synthetic CPU cases in `tests/fresh95_text_owner_check.py` passed on 2026-11-11 against the genuine installed wheel, from a neutral directory with exact Source/RECORD checks and no source `PYTHONPATH`. See the [software validation record](validation/installed-owner-api-20261111.json). They cover forwarding/`None` filtering and original owner identity, pre-work reference refusal, actual core observation restoration/close after callback failure, and retry after a failed close. They do not load Ripple weights, collect teachers or perform optimizer updates. The opt-in filename stays outside default pytest discovery.
+All four new synthetic CPU cases in `tests/scoped_text_owner_check.py` passed on 2026-11-11 against the genuine installed wheel, from a neutral directory with exact Source/RECORD checks and no source `PYTHONPATH`. See the [software validation record](validation/installed-owner-api-20261111.json). They cover forwarding/`None` filtering and original owner identity, pre-work reference refusal, actual core observation restoration/close after callback failure, and retry after a failed close. They do not load Ripple weights, collect teachers or perform optimizer updates. The opt-in filename stays outside default pytest discovery.
 
 With the compatible dependencies and the genuine wheel installed, a future owner may explicitly invoke the fixture from a neutral directory, without a source `PYTHONPATH`:
 
 ```sh
-python -m pytest -c /dev/null /absolute/checkout/backends/ripple-native95/tests/fresh95_text_owner_check.py
+python -m pytest -c /dev/null /absolute/checkout/backends/ripple-native/tests/scoped_text_owner_check.py
 ```
 
 The offline wheel build and installation completed; the installed helper checks above passed. Full pretrained/native execution through this public wheel remains unverified. The saved campaign runs retain their original execution owners and dependency composition.
@@ -121,7 +124,7 @@ This is a completed finite comparison in the captured profile. One matched garde
 
 Numerical best-tested set: **G012**. This identifies the higher measured scalar in this finite comparison. It does not establish a global optimum, useful effect, calibrated accuracy, categorical health or a product default.
 
-Use the existing [native HOW](https://github.com/HyperGAN/ripple-particle-sliders/blob/main/backends/ripple-native95/README.md) with the same model/source, cache/conditioning, native geometry, precision, rank8, batch2, horizon128 and seed7. Reuse the saved RAW32 artifacts; RAW is inference-only. An exact FULL resumes optimizer groups/scalar statistics, bank when present, streams and RNG. Fresh scoped initialization runs once before fresh optimizers; FULL/RAW loading does not initialize again.
+Use the existing [native HOW](https://github.com/HyperGAN/ripple-particle-sliders/blob/main/backends/ripple-native/README.md) with the same model/source, cache/conditioning, native geometry, precision, rank8, batch2, horizon128 and seed7. Reuse the saved RAW32 artifacts; RAW is inference-only. An exact FULL resumes optimizer groups/scalar statistics, bank when present, streams and RNG. Fresh scoped initialization runs once before fresh optimizers; FULL/RAW loading does not initialize again.
 
 Exact optimizer-option tuples for comparable future use:
 

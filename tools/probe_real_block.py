@@ -13,8 +13,8 @@ import psutil
 from torch import nn
 from torch.func import functional_call
 
-from particle_sliders.pg09_backends import AdapterParameters, checkpoint_with_adapter_scale
-from particle_sliders.fibo_hndl import HNDLParticleProjection
+from particle_sliders.backends import AdapterParameters, checkpoint_with_adapter_scale
+from ripple_particle_sliders.fibo_hndl import HNDLParticleProjection
 from ripple_particle_sliders.streaming import CURRENT, FileTensorStore, StreamedBlock
 from ripple_particle_sliders.vendor.configuration_ricursive import RicursiveConfig
 

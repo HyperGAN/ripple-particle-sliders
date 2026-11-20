@@ -4,7 +4,7 @@ from pathlib import Path
 import hashlib,json
 import torch
 from torch import nn
-from particle_sliders.pg09_audio import ARLastHiddenResponseAdapter
+from particle_sliders.audio import ARLastHiddenResponseAdapter
 from particle_sliders.restoration import _restore_all
 from .contracts import MODEL,REVISION,DEFAULTS,file_hash
 from .ownership import require_owner
@@ -66,13 +66,13 @@ class _Host(nn.Module):
     def __init__(self,model):super().__init__();self.model=model;self.config=model.config
 
 class NativeResponse(ARLastHiddenResponseAdapter):
-    family='ripple095_full_native_last_hidden5120'
+    family='ripple_native_full_native_last_hidden5120'
     def __init__(self,runtime):
         self.runtime=runtime;self.slider=Slider(runtime.model,device=runtime.device)
         self.fresh_initialization=None;self.teacher_cache=None;self._native_closed=False
         try:
             super().__init__(_Host(runtime.model),self.slider,model_identity=deepcopy(runtime.identity),
-                checkpoint_modules=tuple(runtime.model.layers),pg_source_profile='release-0.9.5',penalty_input_domain='continuous')
+                checkpoint_modules=tuple(runtime.model.layers),pg_source_profile='release-0.11.0',penalty_input_domain='continuous')
         except BaseException as primary:_restore_all([self.slider.close,runtime.close],primary=primary);raise
     def _hidden(self,ids):return self.runtime.hidden(ids)[:,-1]
     def response(self,*,ids,strength=1.,seed=0):

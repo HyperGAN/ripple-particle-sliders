@@ -5,7 +5,7 @@ import torch
 from particle_sliders.lifecycle import Binding,Capabilities,SessionConfig,read_packet
 from particle_sliders.response import ResponseBackend,ResponseCapabilities
 from particle_sliders.inference import InferenceBackend,InferenceBinding,native_identity
-from particle_sliders.pg095 import ConditionalPG095,engine_options,validate_pg09_domain
+from particle_sliders.engine import ConditionalParticleGAN,engine_options,validate_engine_domain
 from particle_sliders.restoration import _restore_all
 from .contracts import (BACKEND,DEFAULTS,INITIALIZATION_POLICY,PROTOCOL,SOURCE_PROFILE,WEIGHT_POLICY,
     architecture,digest,rate_overrides,validate_options,validate_installed_core)
@@ -15,14 +15,14 @@ from .adapter import Critic
 from .data import teachers
 
 CAP=ResponseCapabilities('routed_particle_gan','text','native_final_AR_token_hidden','continuous_vector',
-    (1,5120),'0.9.5','release-0.9.5',penalty_input_domain='continuous',base_precisions=('nvfp4',),
+    (1,5120),'0.11.0','release-0.11.0',penalty_input_domain='continuous',base_precisions=('nvfp4',),
     qualification='New full original packed/native5120 Source; missing component/fullmodel qualification remains explicit')
 TEXT_CAP=Capabilities('routed_particle_gan',render=True,render_outputs=('text',),operations=('response','render'),
     base_precisions=('nvfp4',),qualification='Full original head/AR text Source; no pretrained/quality/LR claim')
 
 def validate_training(options):
     validate_options(options,training=True);validate_installed_core()
-    validate_pg09_domain((1,5120),response_domain='continuous_vector',**engine_options(options))
+    validate_engine_domain((1,5120),response_domain='continuous_vector',**engine_options(options))
 
 def preflight(options,request,staged):
     construction=staged.get('construction')
@@ -49,7 +49,7 @@ def prepare_training(options,*,construction=None):
             receipt=initialize_owned(native.slider,critic,construction,options)
             native.fresh_initialization=receipt.as_dict()
         if any(p.device!=device or p.dtype!=torch.float32 for p in native.network.parameters()):raise ValueError('all original trainable Parameters FP32 on one explicit PGdevice required')
-        game=ConditionalPG095(native,rows,critic,conditions=conditions,particles=native.network.particles,
+        game=ConditionalParticleGAN(native,rows,critic,conditions=conditions,particles=native.network.particles,
             response_domain='continuous_vector',total_steps=options.get('steps',32),batch_size=options.get('batch',2),
             seed=options.get('seed',7),recipe_overrides=rate_overrides(options),**engine_options(options))
         spec=INFERENCE.specification(native,model_identity=native.model_identity,protocol=PROTOCOL,
@@ -89,7 +89,7 @@ INFERENCE=InferenceBackend(BACKEND,TEXT_CAP,prepare_inference,validate_inference
 
 def config(cohort,**options):
     for key,value in dict(ema_decay=None,source_profile=SOURCE_PROFILE,initialization_policy=INITIALIZATION_POLICY,
-        pg_version='0.9.5',pg_source_profile='release-0.9.5',penalty_input_domain='continuous').items():options.setdefault(key,value)
+        pg_version='0.11.0',pg_source_profile='release-0.11.0',penalty_input_domain='continuous').items():options.setdefault(key,value)
     return SessionConfig(BACKEND,cohort,**options)
 
 def open_training(config,*,resume=None,**request):

@@ -7,8 +7,8 @@ The new training prepare Source is honestly captured in its own FULL manifest.
 from copy import deepcopy
 from pathlib import Path
 import torch
-from ripple_native95.factory import (validate_training,load_runtime,NativeResponse,Critic,
-    initialize_owned,engine_options,ConditionalPG095,INFERENCE,PROTOCOL,architecture,SOURCE_PROFILE,
+from ripple_native.factory import (validate_training,load_runtime,NativeResponse,Critic,
+    initialize_owned,engine_options,ConditionalParticleGAN,INFERENCE,PROTOCOL,architecture,SOURCE_PROFILE,
     INITIALIZATION_POLICY,WEIGHT_POLICY,rate_overrides,digest,Construction,Binding,_restore_all,
     preflight,CAP,BACKEND,ResponseBackend,construction_for,read_packet)
 from durable_teachers import teachers as durable_teachers
@@ -33,7 +33,7 @@ def prepare_training(options,*,construction=None,check):
             receipt=initialize_owned(native.slider,critic,construction,options)
             native.fresh_initialization=receipt.as_dict()
         if any(p.device!=device or p.dtype!=torch.float32 for p in native.network.parameters()):raise ValueError('all original trainable Parameters FP32 on one explicit PGdevice required')
-        game=ConditionalPG095(native,rows,critic,conditions=conditions,particles=native.network.particles,
+        game=ConditionalParticleGAN(native,rows,critic,conditions=conditions,particles=native.network.particles,
             response_domain='continuous_vector',total_steps=options.get('steps',32),batch_size=options.get('batch',2),
             seed=options.get('seed',7),recipe_overrides=rate_overrides(options),**engine_options(options))
         spec=INFERENCE.specification(native,model_identity=native.model_identity,protocol=PROTOCOL,
