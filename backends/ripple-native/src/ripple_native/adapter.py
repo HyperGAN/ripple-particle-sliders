@@ -3,7 +3,7 @@ from contextlib import contextmanager
 import math
 import torch
 from torch import nn
-from particle_sliders.fibo_hndl import HNDLParticleProjection,verified_builder
+from .fibo_hndl import HNDLParticleProjection,verified_builder
 from particle_sliders.restoration import _restore_all
 from .vendor.modeling_ricursive import RicursiveAttention
 CRITIC_GRAPH='''joined = concat(response, condition, axis=1)

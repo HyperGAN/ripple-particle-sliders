@@ -43,7 +43,7 @@ def generate(native,*,ids,max_new_tokens=64,strength=1.,seed=0,output_type='text
             token=int(logits.argmax(-1).item());generated.append(token);context.append(token)
             if token in eos:break
     text=tokenizer.decode(generated,skip_special_tokens=False)
-    return TextOutput(text,dict(schema='Ripple095-native-finished-text-v1',model=runtime.identity,selection='raw',weight_EMA=None,
+    return TextOutput(text,dict(schema='Ripple-engine-native-finished-text-v1',model=runtime.identity,selection='raw',weight_EMA=None,
         prompt_token_ids=list(ids),new_token_ids=generated,eos_token_ids=list(eos),native_greedy_argmax=True,
         complete_vocabulary=config.vocab_size,full80_layer_hidden=True,KV_cache=False,context_truncated=False,
         strength=strength,seed=seed,actual_token_budget=max_new_tokens,quality_or_LR_qualified=False))

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 import torch
-from particle_sliders.fibo_hndl import HNDLParticleProjection, verified_builder
+from ripple_particle_sliders.fibo_hndl import HNDLParticleProjection, verified_builder
 
 
 def main():

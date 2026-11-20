@@ -8,7 +8,7 @@ import torch
 from torch import nn
 from particle_sliders.inference import InferenceSession
 from particle_sliders.lifecycle import Capabilities, LifecycleError
-from ripple_native95_public import text_api as api
+from ripple_native_public import text_api as api
 
 
 def _session(render, close=lambda: None):

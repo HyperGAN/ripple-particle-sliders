@@ -24,7 +24,7 @@ def bounded_cpu():
 
 def session(**kw):
     return open_response(product.config(fixture=True, fixture_width=16,
-                         steps=4, ema_decay=.9, **kw), rows=ROWS)
+                         steps=4, ema_decay=None, **kw), rows=ROWS)
 
 
 def equal(a, b):
@@ -96,7 +96,7 @@ def test_shared_updates_base_freeze_bank_gradients_and_exact_off():
     assert all(m.forward == original for m, original, _ in native.slider._hosts)
 
 
-def test_split_resume_and_portable_raw_ema(tmp_path):
+def test_split_resume_and_portable_raw(tmp_path):
     with session() as whole:
         whole.train()
         expected = whole.checkpoint()
@@ -104,14 +104,12 @@ def test_split_resume_and_portable_raw_ema(tmp_path):
         part.train(stop_after=2)
         part.checkpoint(tmp_path / 'resume.pt')
     with open_response(product.config(fixture=True, fixture_width=16, steps=4,
-                                      ema_decay=.9), rows=ROWS,
+                                      ema_decay=None), rows=ROWS,
                        resume=tmp_path / 'resume.pt') as resumed:
         resumed.train()
         equal(expected, resumed.checkpoint())
-        for choice in ('raw', 'ema'):
+        for choice in ('raw',):
             old = deepcopy(resumed.game.network.state_dict())
-            if choice == 'ema':
-                resumed.game.network.load_state_dict(resumed.ema.values)
             probes = {v: resumed.evaluate(strength=v) for v in (0., -.5, .5, 1.)}
             resumed.game.network.load_state_dict(old)
             artifact = resumed.export_inference(selection=choice)
@@ -128,7 +126,7 @@ def test_native_refuses_before_model_or_hooks(monkeypatch):
 
 @pytest.mark.parametrize('key,value', [('fixture', 'true'), ('dummy', False),
     ('fixture_width', 64), ('base_precision', 'bfloat16'), ('lr', True),
-    ('penalty_input_domain', 'continuous'), ('pg_source_profile', 'unreviewed')])
+    ('penalty_input_domain','categorical'), ('pg_source_profile', 'unreviewed')])
 def test_unqualified_options_refuse(key, value, monkeypatch):
     monkeypatch.setattr(product, '_native', lambda *a: pytest.fail('model allocated'))
     options = dict(fixture=True)
@@ -147,7 +145,7 @@ def test_product_source_tampering_refuses(tmp_path, monkeypatch):
 
 
 def test_routed_projection_vjp_matches_finite_differences():
-    from particle_sliders.fibo_hndl import HNDLParticleProjection
+    from ripple_particle_sliders.fibo_hndl import HNDLParticleProjection
     with torch.random.fork_rng(devices=[]):
         torch.random.default_generator.manual_seed(17)
         bank = torch.nn.Parameter(torch.randn(128, 4, dtype=torch.float64))

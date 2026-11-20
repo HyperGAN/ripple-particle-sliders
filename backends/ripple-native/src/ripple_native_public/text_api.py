@@ -1,6 +1,6 @@
-"""Text-only facade around the captured native95 backend and core session.
+"""Text-only facade around the captured native backend and core session.
 
-Kept outside ripple_native95: its recursive native Source identity must not change.
+Kept outside ripple_native: its recursive native Source identity must not change.
 """
 from copy import deepcopy
 
@@ -12,18 +12,18 @@ def _request(value):
         raise TypeError("native_request must be a dictionary")
     result = deepcopy(value)
     if result.pop("images", None) is not None:
-        raise ValueError("Ripple native95 text does not accept image references")
+        raise ValueError("Ripple native text does not accept image references")
     return result
 
 
 def _no_images(images):
     if images is not None:
-        raise ValueError("Ripple native95 text does not accept image references")
+        raise ValueError("Ripple native text does not accept image references")
 
 
 def _open_original(artifact, *, options, strength, native_request):
     from particle_sliders.inference import open_inference
-    from ripple_native95.factory import INFERENCE
+    from ripple_native.factory import INFERENCE
     return open_inference(artifact, options=options, backend=INFERENCE,
                           operation="render", strength=strength, output_type="text",
                           native_request=native_request)
@@ -49,7 +49,7 @@ class TextInferenceSession:
     def render(self, *, strength=1., seed=0, images=None, output_type="text", **native):
         _no_images(images)
         if output_type != "text":
-            raise ValueError("Ripple native95 produces text")
+            raise ValueError("Ripple native produces text")
         request = _request(native)
         session = self._session
         session._open()
@@ -77,7 +77,7 @@ def open_text_inference(artifact, *, options=None, strength=1., images=None,
     """Open the unchanged native-only RAW artifact; no game/teachers/initialization."""
     _no_images(images)
     if output_type != "text":
-        raise ValueError("Ripple native95 produces text")
+        raise ValueError("Ripple native produces text")
     request = _request(native_request)
     session = _open_original(artifact, options=options, strength=strength,
                              native_request=request)

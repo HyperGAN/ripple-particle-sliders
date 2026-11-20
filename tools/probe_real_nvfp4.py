@@ -131,7 +131,7 @@ def main():
     assert torch.autograd.gradcheck(small, (value,), fast_mode=True)
     assert torch.autograd.gradgradcheck(small, (value,), fast_mode=True)
     checks['w4a16_real_rows_first_and_second_order_finite_difference'] = True
-    from particle_sliders.fibo_hndl import HNDLParticleProjection
+    from ripple_particle_sliders.fibo_hndl import HNDLParticleProjection
     bank = torch.nn.Parameter(torch.randn(128, 4))
     host = torch.nn.Linear(16, p.shape[1]*2, bias=False).requires_grad_(False)
     saved_host = host.weight.detach().clone()
