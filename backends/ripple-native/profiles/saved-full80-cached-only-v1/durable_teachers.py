@@ -7,8 +7,8 @@ fresh construction; no fallback can call an original teacher response.
 from pathlib import Path
 import json
 import torch
-from particle_sliders.audio import PreparedAudioResponse,audio_conditions
-from ripple_native.data import read_rows,record
+from particle_sliders.pg09_audio import PreparedAudioResponse,audio_conditions
+from ripple_native95.data import read_rows,record
 import common as c
 
 
