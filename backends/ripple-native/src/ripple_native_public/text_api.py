@@ -10,6 +10,8 @@ def _request(value):
         return {}
     if not isinstance(value, dict):
         raise TypeError("native_request must be a dictionary")
+    if "steering" in value:
+        raise ValueError("Supply activation steering to render, after opening the original RAW owner")
     result = deepcopy(value)
     if result.pop("images", None) is not None:
         raise ValueError("Ripple native text does not accept image references")
@@ -46,23 +48,29 @@ class TextInferenceSession:
     def closed(self):
         return self._session.closed
 
-    def render(self, *, strength=1., seed=0, images=None, output_type="text", **native):
+    def render(self, *, strength=1., seed=0, images=None, output_type="text", steering=None, **native):
         _no_images(images)
         if output_type != "text":
             raise ValueError("Ripple native produces text")
         request = _request(native)
         gains = request.pop("step_gains", None)
+        if steering is not None and gains is not None:
+            raise ValueError("Choose either activation steering or fixed step gains")
         session = self._session
         session._open()
         session.capabilities.check("render", strength=strength, references=False,
                                    output_type="text")
         session._preflight("render", strength, False, "text", request)
-        if gains is not None:
-            from .scheduled_text import generate
+        if gains is not None or steering is not None:
             native_owner = getattr(session.binding.response, "__self__", None)
             if getattr(native_owner, "network", None) is not session.binding.network:
                 raise ValueError("Scheduled strength requires the captured Ripple native owner")
             with session._observation(seed, request):
+                if steering is not None:
+                    from .adaptive_text import generate
+                    return generate(native_owner, strength=strength, seed=seed, output_type="text",
+                                    steering=steering, **request)
+                from .scheduled_text import generate
                 return generate(native_owner, strength=strength, seed=seed, output_type="text",
                                 step_gains=gains, **request)
         # Original successful text caller: omit images rather than forwarding None.

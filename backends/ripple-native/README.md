@@ -111,6 +111,80 @@ with admitted(owner):
 
 The complete prompt plus generation budget must fit 128 tokens, without truncation. Native generation uses the complete original vocabulary head and greedy argmax, including literal EOS; strengths are 0–1. Non-`None` image references, including an empty list, are refused before allocation/work. The facade neither retags RAW nor blends an older adapter. Keep its context manager so failures invoke original session cleanup; a failed close remains retryable and blocks further work until cleanup succeeds.
 
+## Optional activation-dependent strength
+
+Keep the original Ripple core installation for strict RAW provenance. Build a
+separate wheel for the shared steering code and leave it uninstalled.
+
+```sh
+python -m pip wheel --no-deps --wheel-dir /path/to/steering-wheels \
+  'particle-sliders-core @ git+https://github.com/HyperGAN/particle-sliders.git@b1f780decc516808cfd3019d5e5b674457161f86#subdirectory=packages/particle-sliders-core'
+```
+
+The facade verifies the exact CFP, CLABS and PSR module bytes in that wheel.
+The original backend, package pin, admission, and artifact readers stay in
+the captured runtime. Supply a measured policy to `.render()`:
+
+```python
+from ripple_native_public.adaptive_text import PrefixGate
+from ripple_native_public.steering_core import load_steering_core
+
+shared = load_steering_core(exact_269_wheel)
+gate = PrefixGate(
+    core=shared, layer=chosen_layer, method="cfp", parameter=calibrated_threshold,
+    direction=calibrated_ripple_direction, intervention="residual",
+    evidence_ref=calibration_receipt,
+)
+output = inference.render(ids=prompt_ids, max_new_tokens=token_budget,
+                          strength=calibrated_strength, seed=generation_seed,
+                          steering=gate)
+```
+
+- A residual gate (`intervention="residual"`) applies the paper's additive
+  direction at the selected decoder input. CLABS uses its calibrated bias,
+  explicit gate seed and shared `CLABSParameters`. The matched random gate
+  takes a declared target rate and seed.
+- A RAW gate (`intervention="raw_adapter"`, `layer=0`) measures the decoder
+  input before the attention adapter and masks the native HNDL deltas by
+  position. It keeps the saved RAW adapter and its original four projections
+  per layer as the intervention. Layer 0 reads the latest token embedding.
+  Later-layer contextual signals are available to residual gates.
+- `PrefixPromptSteering(core=shared, layer=chosen_layer, fitted=fitted_psr,
+  evidence_ref=fit_receipt)` uses fitted FP32 S-PSR from aligned native
+  activation pairs. Load the fitted coefficients into the shared
+  `shared.prompt.PromptSteering` with Ripple's full hidden width.
+
+Ripple refreshes the entire prefix for every native greedy prediction. The last
+prompt token is the first decision position, and earlier prompt positions
+receive no edit. Each refresh reapplies previous decisions, or fitted PSR
+coefficients, at their original positions. It reads the latest residual before
+editing and advances the gate only once. Native EOS ends the decision sequence.
+The sidecar records the chosen layer, evidence reference, every position and
+effective strength, and realized on/off counts. A RAW gate whose eligible
+positions all fire still leaves earlier prompt positions at base strength; a
+scalar native render applies its strength to the entire prefix. Keep
+`step_gains` for that original per-forward control. It is mutually exclusive
+with `steering`.
+
+Fit the Ripple-compatible SAE direction and tune the threshold or bias on
+disjoint, active native calibration rollouts following the shared guide.
+Keep the checkpoint, prompts, decode profile and measured intervention budget
+matched when comparing finished-output gain with OFF and fixed or random
+controls. Score the intended effect separately from the qualified catastrophic
+output check. Existing garden measurements are fixed-strength examples. The
+pretrained adaptive effect requires a fitted Ripple residual artifact and
+held-out finished text. [Shared equations and calibration](https://github.com/HyperGAN/particle-sliders/blob/b1f780decc516808cfd3019d5e5b674457161f86/docs/strength-schedules.md#activation-dependent-steering)
+
+The CPU qualification uses a tiny implementation of Ripple's packed
+streaming model, local and global attention, HNDL adapter branches, and the
+native greedy vocabulary head. It covers replay, EOS, exact OFF and constant
+controls where the evaluated positions match, and failure cleanup.
+
+```sh
+RIPPLE_TEST_STEERING_WHEEL=/path/to/exact-269.whl python -m pytest \
+  -c /dev/null /absolute/checkout/backends/ripple-native/tests/test_adaptive_text.py
+```
+
 ## Saved campaign factory identities
 
 The [saved cached-only profile assets](https://github.com/HyperGAN/ripple-particle-sliders/blob/88c0ff8c640169d25866636842775ad43e4ce41b/backends/ripple-native/profiles/saved-full80-cached-only-v1/README.md) preserve the exact `cache_factory.py` `c7c5141a…` and `durable_teachers.py` `b3401177…` used by the captured execution composition. They are source assets, not replacement default backends. A FULL manifest made by that factory is not interchangeable with the ordinary factory above. RAW continues to use the original inference factory identity. No saved manifest, Source digest, receipt or checkpoint should be rewritten to make a different factory appear compatible.
