@@ -86,7 +86,7 @@
     "fibo_hndl_010_sources.json": "aad632acd7997caea7f7f2571d4514e0d0fa3e202953b454027df3dc1719ff06",
     "fibo_projection.hndl": "b5efac1cfb0c597e5d6e0839af6077ff36dec916901bfa254be78db9f691c086",
     "learning_rates.py": "7f6ad71e970fc4e9cf9bdce078be3268c6af4ff8e818073e21b8279489c2b307",
-    "profiles/continuous5120.json": "bd6b5d0dc5a9ce4c285f7dfb1bbe60c9863da90e237f3502364a39b45efdc3d3",
+    "profiles/continuous5120.json": "32c4c0b28e16020c5361e33ce0401cee10e02bac3f2b89ed0592db26f5cd7e56",
     "streaming.py": "89d7c80971d3ef63d6308aa6a4a4c85c3ac8ccdc23a471270627fa9c07585a8c",
     "training_profile.py": "096b63b9b23d7f9efd7c5fb0745d84314f2f498512cfd68c23e6f6013f186efc",
     "vendor/LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
@@ -95,6 +95,6 @@
     "vendor/configuration_ricursive.py": "002cb3915be9685eb962d617623bec14d45b5d6b5d46e689fac98a3b38cb6cf6",
     "vendor/modeling_ricursive.py": "f83865ef643e273a6c9aecf1575e85c95ad01fd995b1e43c3c7a892765006bb3"
   },
-  "product_sources_index_sha256": "147c8f99e92b5c1332dfa2ecd125fd8944fbd421a0242d0bb1d084071d8411b8",
+  "product_sources_index_sha256": "bd5a9cba88c91ad16f1d3727fd821989f1c2cef747169413b41ba4837ebb0700",
   "schema": "ripple-source-lock-v1"
 }

@@ -17,7 +17,7 @@
   "pg_source_commit": "d5dec2fe005305082acf382f0939a4bdb51c7131",
   "pg_source_repository": "https://github.com/HyperGAN/ParticleGAN",
   "pg_wheel_sha256": "ce9dd51cf2bf0067751c9e6409d05d149ce41c1df98fe3edb0412e3df430de52",
-  "core_profile_manifest_sha256": "98b7bb0de14378c866ef14a267f43f0a6bc1726d74d3331871cd199ff06e5aa7",
+  "core_profile_manifest_sha256": "9d83626b4486c83956e780f5ba6ce84ba5b10b096689a178a243bea27d645560",
   "activation_gradient": "explicit W4A4 identity STE; not derivative of rounding",
   "runtime_qualified": false,
   "gpu_admitted": false,

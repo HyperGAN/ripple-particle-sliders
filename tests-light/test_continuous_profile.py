@@ -33,7 +33,7 @@ class DeclarationTests(unittest.TestCase):
     def test_cross_pairs_release_alias_and_unknown_profile_refuse(self):
         for update in [dict(pg_source_profile='release-0.11.0'),
                        dict(penalty_input_domain='auto'), dict(penalty_input_domain='categorical'),
-                       dict(pg_source_profile='source-801ae1e'), dict(pg_version='0.9.4+continuous')]:
+                       dict(pg_source_profile='source-801ae1e'), dict(pg_version='0.11.1+continuous')]:
             with self.subTest(update=update), self.assertRaises(profile.ProfileError):
                 profile.validate_options(dict(profile.proposal(), **update))
 
@@ -159,7 +159,7 @@ class SourceArtifactTests(unittest.TestCase):
             with self.subTest(origin=origin):
                 self.assertEqual(self.audit(core_origin=origin)['status'],'REFUSED_CORE_IDENTITY')
         self.assertEqual(self.audit(core_version='0.11.0')['status'],'REFUSED_CORE_IDENTITY')
-        self.assertFalse(self.audit(self.snapshot,pg_version='0.9.5')['installed_matches_candidate'])
+        self.assertFalse(self.audit(self.snapshot,pg_version='0.11.0')['installed_matches_candidate'])
 
     def test_changed_archive_cannot_claim_candidate_identity(self):
         path = Path(self.temporary.name)/'changed.whl'
