@@ -79,6 +79,20 @@ with admitted(owner):
 
 Use the additive public text facade. The captured core's generic `.render()` passes an `images=None` keyword that the unchanged Ripple text callbacks do not accept. The facade follows the existing successful text call sequence while retaining the original backend/factory identity, core observation/RNG restoration and retryable cleanup. It lives in the sibling `ripple_native_public` namespace so it cannot change the original backend's recursive Source identity.
 
+Pass `step_gains` to the public text session to vary RAW adapter strength over
+output positions. Provide one nonnegative multiplier per planned
+`max_new_tokens`. The first gain applies to the forward that predicts the first
+output token. Each resolved strength must be in `[0, 1]`. Native EOS can stop
+the trajectory early. The result records both requested and applied strengths.
+
+```python
+output = session.render(ids=prompt_ids, max_new_tokens=4, strength=0.5,
+                        step_gains=[1.5, 1.5, 0.5, 0.5], seed=7)
+```
+
+Compare scheduled and constant renders on matched native text before selecting a
+profile. [Shared qualification guide](https://github.com/HyperGAN/particle-sliders/blob/main/docs/strength-schedules.md)
+
 ```python
 from ripple_native_public.text_api import open_text_inference
 
