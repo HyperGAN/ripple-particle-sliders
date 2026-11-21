@@ -51,11 +51,20 @@ class TextInferenceSession:
         if output_type != "text":
             raise ValueError("Ripple native produces text")
         request = _request(native)
+        gains = request.pop("step_gains", None)
         session = self._session
         session._open()
         session.capabilities.check("render", strength=strength, references=False,
                                    output_type="text")
         session._preflight("render", strength, False, "text", request)
+        if gains is not None:
+            from .scheduled_text import generate
+            native_owner = getattr(session.binding.response, "__self__", None)
+            if getattr(native_owner, "network", None) is not session.binding.network:
+                raise ValueError("Scheduled strength requires the captured Ripple native owner")
+            with session._observation(seed, request):
+                return generate(native_owner, strength=strength, seed=seed, output_type="text",
+                                step_gains=gains, **request)
         # Original successful text caller: omit images rather than forwarding None.
         with session._observation(seed, request):
             return session.binding.render(strength=strength, seed=seed,
@@ -79,6 +88,12 @@ def open_text_inference(artifact, *, options=None, strength=1., images=None,
     if output_type != "text":
         raise ValueError("Ripple native produces text")
     request = _request(native_request)
+    gains = request.pop("step_gains", None)
+    if gains is not None:
+        from ripple_native.finished_text import validate_request
+        from .scheduled_text import step_strengths
+        validate_request(strength=strength, output_type="text", **request)
+        step_strengths(gains, strength=strength, max_new_tokens=request.get("max_new_tokens", 64))
     session = _open_original(artifact, options=options, strength=strength,
                              native_request=request)
     return TextInferenceSession(session)
