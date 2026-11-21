@@ -161,7 +161,7 @@ See [PROVENANCE.json](PROVENANCE.json) and [publication scope](PUBLICATION.md).
 This is public source, not a full-model training or native qualification release.
 
 
-## Opt-in native ParticleGAN 0.11.0 backend
+## Opt-in native ParticleGAN 0.11.1 backend
 
 The additive [native owner API and how-to](backends/ripple-native/README.md)
 preserves this historical package and its defaults. See its

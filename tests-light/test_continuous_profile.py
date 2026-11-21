@@ -25,13 +25,13 @@ class DeclarationTests(unittest.TestCase):
         plan = profile.proposal()
         options = profile.validate_options(plan)
         self.assertEqual(plan['response_shape'], [1,5120])
-        self.assertEqual(options, dict(pg_version='0.11.0', pg_source_profile=profile.PROFILE,
+        self.assertEqual(options, dict(pg_version='0.11.1', pg_source_profile=profile.PROFILE,
                                        penalty_input_domain='continuous'))
         self.assertFalse(plan['training_enabled'])
         self.assertNotIn('torch', sys.modules)
 
     def test_cross_pairs_release_alias_and_unknown_profile_refuse(self):
-        for update in [dict(pg_source_profile='release-0.9.4'),
+        for update in [dict(pg_source_profile='release-0.11.0'),
                        dict(penalty_input_domain='auto'), dict(penalty_input_domain='categorical'),
                        dict(pg_source_profile='source-801ae1e'), dict(pg_version='0.9.4+continuous')]:
             with self.subTest(update=update), self.assertRaises(profile.ProfileError):
@@ -45,7 +45,7 @@ class DeclarationTests(unittest.TestCase):
             profile.validate_options(dict(profile.proposal(), response_domain='continuous_field'))
 
     def test_old_cohort_and_changed_condition_width_refuse(self):
-        for update in [dict(cohort='ripple-pg094-hypergan-hndl-v1-cpu-fixture'),
+        for update in [dict(cohort='ripple-engine-hypergan-hndl-v1-cpu-fixture'),
                        dict(condition_width=5123), dict(condition_width=5124.0)]:
             with self.subTest(update=update), self.assertRaises(profile.ProfileError):
                 profile.validate_options(dict(profile.proposal(), **update))
@@ -100,7 +100,7 @@ class SourceArtifactTests(unittest.TestCase):
                     target.write_bytes(archive.read(name))
 
     def audit(self, pg=None, **kwargs):
-        values = dict(core_version='0.15.1', core_origin=self.origin, pg_version='0.11.0',
+        values = dict(core_version='0.15.2', core_origin=self.origin, pg_version='0.11.1',
                       candidate_wheel=self.wheel)
         values.update(kwargs)
         return profile.audit_files(self.core, pg or self.pg, **values)
@@ -109,7 +109,7 @@ class SourceArtifactTests(unittest.TestCase):
         result = profile.audit_wheel(self.wheel,self.manifest)
         self.assertTrue(result['exact_archive'])
         self.assertTrue(result['source_closure_match'])
-        self.assertEqual(result['metadata_version'],'0.11.0')
+        self.assertEqual(result['metadata_version'],'0.11.1')
         self.assertFalse(result['qualified_for_runtime'])
 
     def test_installed_release_matches_the_continuous_profile(self):
@@ -178,8 +178,8 @@ class SourceArtifactTests(unittest.TestCase):
         old = sys.argv
         try:
             for pg_root, code in [(self.pg,0),(self.snapshot,0)]:
-                distributions={'particle-sliders-core':Distribution(self.core,'0.15.1'),
-                               'particlegan':Distribution(pg_root,'0.11.0')}
+                distributions={'particle-sliders-core':Distribution(self.core,'0.15.2'),
+                               'particlegan':Distribution(pg_root,'0.11.1')}
                 output=io.StringIO()
                 sys.argv=['ripple-continuous-profile-audit','--candidate-wheel',str(self.wheel)]
                 with patch.object(profile.metadata,'distribution',side_effect=distributions.__getitem__), contextlib.redirect_stdout(output):

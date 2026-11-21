@@ -1,6 +1,6 @@
 {
   "backend": "ripple-particle-sliders",
-  "cohort": "ripple-pg094-hypergan-hndl-v1-cpu-fixture",
+  "cohort": "ripple-engine-hypergan-hndl-v1-cpu-fixture",
   "options": {
     "dummy": true,
     "fixture": true,
