@@ -12,8 +12,8 @@ From this repository checkout, in an isolated compatible environment:
 python -m pip install ./backends/ripple-native
 ```
 
-This subproject pins ParticleGAN 0.11.0 and core 0.15.1 at
-`c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78`. Its source lock checks the
+This subproject pins ParticleGAN 0.11.1 and core 0.15.2 at
+`ec1161f5d74481be3540cb0dfa63d0e8f8b54e90`. Its source lock checks the
 installed core and the product-owned HNDL binding. Use the original
 repository revision and pins to read earlier cohort files.
 
@@ -99,7 +99,7 @@ The complete prompt plus generation budget must fit 128 tokens, without truncati
 
 ## Saved campaign factory identities
 
-The [saved cached-only profile assets](profiles/saved-full80-cached-only-v1/README.md) preserve the exact `cache_factory.py` `c7c5141a…` and `durable_teachers.py` `b3401177…` used by the captured execution composition. They are source assets, not replacement default backends. A FULL manifest made by that factory is not interchangeable with the ordinary factory above. RAW continues to use the original inference factory identity. No saved manifest, Source digest, receipt or checkpoint should be rewritten to make a different factory appear compatible.
+The [saved cached-only profile assets](https://github.com/HyperGAN/ripple-particle-sliders/blob/88c0ff8c640169d25866636842775ad43e4ce41b/backends/ripple-native/profiles/saved-full80-cached-only-v1/README.md) preserve the exact `cache_factory.py` `c7c5141a…` and `durable_teachers.py` `b3401177…` used by the captured execution composition. They are source assets, not replacement default backends. A FULL manifest made by that factory is not interchangeable with the ordinary factory above. RAW continues to use the original inference factory identity. No saved manifest, Source digest, receipt or checkpoint should be rewritten to make a different factory appear compatible.
 
 ## New facade software cases
 

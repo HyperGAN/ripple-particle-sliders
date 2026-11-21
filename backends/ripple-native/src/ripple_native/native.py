@@ -72,7 +72,7 @@ class NativeResponse(ARLastHiddenResponseAdapter):
         self.fresh_initialization=None;self.teacher_cache=None;self._native_closed=False
         try:
             super().__init__(_Host(runtime.model),self.slider,model_identity=deepcopy(runtime.identity),
-                checkpoint_modules=tuple(runtime.model.layers),pg_source_profile='release-0.11.0',penalty_input_domain='continuous')
+                checkpoint_modules=tuple(runtime.model.layers),pg_source_profile='release-0.11.1',penalty_input_domain='continuous')
         except BaseException as primary:_restore_all([self.slider.close,runtime.close],primary=primary);raise
     def _hidden(self,ids):return self.runtime.hidden(ids)[:,-1]
     def response(self,*,ids,strength=1.,seed=0):

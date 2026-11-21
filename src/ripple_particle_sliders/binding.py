@@ -34,7 +34,7 @@ features = silu(features)
 linear(features, 1, name="score")
 '''
 ROOT = Path(__file__).parent
-CORE_COMMIT = 'c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78'
+CORE_COMMIT = 'ec1161f5d74481be3540cb0dfa63d0e8f8b54e90'
 
 
 def _digest(path):
@@ -65,7 +65,7 @@ def _core_sources():
 def _core_install_receipt(lock):
     """Require the approved immutable Git origin, not version-only/wheel aliasing."""
     dist = distribution('particle-sliders-core')
-    if (lock.get('core_commit') != CORE_COMMIT or lock.get('core_version') != '0.15.1'
+    if (lock.get('core_commit') != CORE_COMMIT or lock.get('core_version') != '0.15.2'
             or dist.version != lock['core_version']):
         raise ValueError('Ripple v1 requires its exact approved core version/source identity')
     try:

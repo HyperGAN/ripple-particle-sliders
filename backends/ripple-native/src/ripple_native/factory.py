@@ -15,7 +15,7 @@ from .adapter import Critic
 from .data import teachers
 
 CAP=ResponseCapabilities('routed_particle_gan','text','native_final_AR_token_hidden','continuous_vector',
-    (1,5120),'0.11.0','release-0.11.0',penalty_input_domain='continuous',base_precisions=('nvfp4',),
+    (1,5120),'0.11.1','release-0.11.1',penalty_input_domain='continuous',base_precisions=('nvfp4',),
     qualification='New full original packed/native5120 Source; missing component/fullmodel qualification remains explicit')
 TEXT_CAP=Capabilities('routed_particle_gan',render=True,render_outputs=('text',),operations=('response','render'),
     base_precisions=('nvfp4',),qualification='Full original head/AR text Source; no pretrained/quality/LR claim')
@@ -89,7 +89,7 @@ INFERENCE=InferenceBackend(BACKEND,TEXT_CAP,prepare_inference,validate_inference
 
 def config(cohort,**options):
     for key,value in dict(ema_decay=None,source_profile=SOURCE_PROFILE,initialization_policy=INITIALIZATION_POLICY,
-        pg_version='0.11.0',pg_source_profile='release-0.11.0',penalty_input_domain='continuous').items():options.setdefault(key,value)
+        pg_version='0.11.1',pg_source_profile='release-0.11.1',penalty_input_domain='continuous').items():options.setdefault(key,value)
     return SessionConfig(BACKEND,cohort,**options)
 
 def open_training(config,*,resume=None,**request):

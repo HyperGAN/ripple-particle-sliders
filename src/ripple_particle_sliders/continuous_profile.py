@@ -13,11 +13,11 @@ from pathlib import Path
 import zipfile
 
 ROOT = Path(__file__).parent
-PROFILE = 'release-0.11.0'
-COMMIT = 'b86f0379b4d887f4cde88d686aedc04661a2b61b'
-WHEEL_SHA256 = '218ac69efd42e092367b4c7a5c4abb4685dc63a73ccc23223a8bb4dd1543e327'
-WHEEL_BYTES = 852640
-CORE_COMMIT = 'c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78'
+PROFILE = 'release-0.11.1'
+COMMIT = 'd5dec2fe005305082acf382f0939a4bdb51c7131'
+WHEEL_SHA256 = 'ce9dd51cf2bf0067751c9e6409d05d149ce41c1df98fe3edb0412e3df430de52'
+WHEEL_BYTES = 858080
+CORE_COMMIT = 'ec1161f5d74481be3540cb0dfa63d0e8f8b54e90'
 
 
 class ProfileError(ValueError):
@@ -41,8 +41,8 @@ def proposal():
 
 def validate_options(value):
     """A paired declaration with original native geometry; never width heuristics."""
-    if value.get('pg_version') != '0.11.0':
-        raise ProfileError('exact ParticleGAN 0.11.0 source cohort required')
+    if value.get('pg_version') != '0.11.1':
+        raise ProfileError('exact ParticleGAN 0.11.1 source cohort required')
     if (value.get('pg_source_profile'), value.get('penalty_input_domain')) != (PROFILE, 'continuous'):
         raise ProfileError('explicit release/continuous pair required')
     shape = value.get('response_shape')
@@ -54,7 +54,7 @@ def validate_options(value):
         raise ProfileError('distinct explicit candidate cohort required')
     if type(value.get('condition_width')) is not int or value['condition_width'] != 5124:
         raise ProfileError('native conditioning width must remain 5124')
-    return dict(pg_source_profile=PROFILE, penalty_input_domain='continuous', pg_version='0.11.0')
+    return dict(pg_source_profile=PROFILE, penalty_input_domain='continuous', pg_version='0.11.1')
 
 
 def digest(path):
@@ -124,7 +124,7 @@ def audit_files(core_root, pg_root, *, core_version, core_origin, pg_version, ca
     if not isinstance(vcs, dict): vcs = {}
     directory = core_origin.get('dir_info', {})
     if not isinstance(directory, dict): directory = {'editable':True}
-    origin_match = (core_version=='0.15.1' and core_origin.get('url')==
+    origin_match = (core_version=='0.15.2' and core_origin.get('url')==
         'https://github.com/HyperGAN/particle-sliders.git' and
         core_origin.get('subdirectory')=='packages/particle-sliders-core' and
         vcs.get('vcs')=='git' and vcs.get('commit_id')==CORE_COMMIT and
@@ -138,15 +138,15 @@ def audit_files(core_root, pg_root, *, core_version, core_origin, pg_version, ca
     manifest = json.loads(manifest_path.read_text())
     if (digest(manifest_path)!=selected['core_profile_manifest_sha256'] or
             (manifest.get('version'),manifest.get('source_profile'),manifest.get('source_commit'),
-             manifest.get('wheel_sha256')) != ('0.11.0',PROFILE,COMMIT,WHEEL_SHA256)):
+             manifest.get('wheel_sha256')) != ('0.11.1',PROFILE,COMMIT,WHEEL_SHA256)):
         raise ProfileError('shared continuous manifest contradicts candidate identity')
     sources = python_inventory(pg_root)
     source_match = equal_inventory(sources, manifest['python_sources'])
-    installed_matches = source_match and pg_version=='0.11.0'
+    installed_matches = source_match and pg_version=='0.11.1'
     artifact = audit_wheel(candidate_wheel, manifest) if candidate_wheel else None
     artifact_rejected = artifact is not None and not (
         artifact.get('exact_archive') and artifact.get('source_closure_match')
-        and artifact.get('metadata_version')=='0.11.0')
+        and artifact.get('metadata_version')=='0.11.1')
     status = ('REFUSED_CANDIDATE_ARTIFACT' if artifact_rejected else
               'SOURCE_CHECKS_PASS_RUNTIME_PENDING' if installed_matches else 'HOLD_INSTALLED_SOURCE_MISMATCH')
     return dict(status=status,

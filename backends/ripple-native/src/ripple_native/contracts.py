@@ -1,7 +1,7 @@
 """New native5120 cohort; old094 packets/fixtures keep their original namespace."""
 from pathlib import Path
 import hashlib,json,math
-CORE_REVISION='c13890f8e2a1ecf1dc8eb9f2a37f9187cb9fea78'
+CORE_REVISION='ec1161f5d74481be3540cb0dfa63d0e8f8b54e90'
 BACKEND='ripple_native'
 SOURCE_PROFILE='ripple-native5120-NVFP4-STE-continuous-engine-hndl-v1'
 INITIALIZATION_POLICY='ripple-host-RMS-QR-zero-up-bank-R2-std1-v1'
@@ -21,7 +21,7 @@ def rate_overrides(options):
 
 def validate_profile(options):
     if 'ema_decay'not in options or options['ema_decay']is not None or options.get('ema')is not None:raise ValueError('explicit ema_decay=None; all weight EMA refused before allocation')
-    if(options.get('source_profile'),options.get('initialization_policy'),options.get('pg_version'),options.get('pg_source_profile'),options.get('penalty_input_domain'))!=(SOURCE_PROFILE,INITIALIZATION_POLICY,'0.11.0','release-0.11.0','continuous'):
+    if(options.get('source_profile'),options.get('initialization_policy'),options.get('pg_version'),options.get('pg_source_profile'),options.get('penalty_input_domain'))!=(SOURCE_PROFILE,INITIALIZATION_POLICY,'0.11.1','release-0.11.1','continuous'):
         raise ValueError('explicit new095/native5120/continuous initialization profile required')
     rate_overrides(options)
 
@@ -48,8 +48,8 @@ def validate_options(options,*,training=False):
 def validate_installed_core():
     from importlib import metadata
     lock=json.loads(Path(__file__).with_name('current_core.json').read_text());d=metadata.distribution('particle-sliders-core')
-    if d.version!=lock['version']or lock['commit']!=CORE_REVISION:raise ValueError('exact current core0.15.1 source required')
+    if d.version!=lock['version']or lock['commit']!=CORE_REVISION:raise ValueError('exact current core0.15.2 source required')
     for name,sha in lock['checked_api_files'].items():
         source = Path(__file__).with_name(name) if name.startswith('fibo_') else d.locate_file('particle_sliders/'+name)
         if file_hash(source) != sha: raise ValueError('current source differs: ' + name)
-    if metadata.version('transformers')!='4.57.6'or metadata.version('particlegan')!='0.11.0':raise ValueError('explicit new TF4.57.6/current engine profile required; no old qualification transfer')
+    if metadata.version('transformers')!='4.57.6'or metadata.version('particlegan')!='0.11.1':raise ValueError('explicit new TF4.57.6/current engine profile required; no old qualification transfer')
