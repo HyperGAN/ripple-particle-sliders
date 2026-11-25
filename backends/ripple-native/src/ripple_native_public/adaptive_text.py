@@ -132,7 +132,8 @@ def generate(native, *, ids, max_new_tokens=64, strength=1., seed=0,
         if fitted is not None:
             fitted.to(device=hidden.device)
             edited_latest, coefficient = fitted(latest, strength)
-            effective = (coefficient * strength).item()
+            # Resolve the scale in the same dtype as PromptSteering.forward.
+            effective = (coefficient.new_tensor(strength) * coefficient).item()
             if not isfinite(effective) or not torch.isfinite(edited_latest).all().item():
                 raise ValueError("Nonfinite Ripple S-PSR intervention")
             # Reuse prior effective coefficients without evaluating the probe on old rows.

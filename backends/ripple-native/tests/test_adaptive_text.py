@@ -1,4 +1,4 @@
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 import json
 from os import environ
 from random import Random
@@ -235,6 +235,56 @@ def test_s_psr_fits_one_new_row_and_reapplies_history(native, core, monkeypatch)
     _, expected = _capture_hidden(native, lambda: generate(native, steering=gate,
                                                             **dict(_request(), strength=strength)))
     assert all(torch.equal(left, right) for left, right in zip(actual, expected, strict=True))
+
+
+def test_s_psr_autocast_replays_the_applied_coefficient(native, core):
+    fitted = core.prompt.PromptSteering(16)
+    with torch.no_grad():
+        fitted.direction.weight.fill_(1.)
+        fitted.probe.weight.zero_()
+        fitted.probe.bias.fill_(.875)
+    layers = native.runtime.model.layers
+    strength = .3
+    request = _request()
+    first_prediction = len(request["ids"]) - 1
+    plan = PrefixPromptSteering(core=core, layer=0, fitted=fitted, evidence_ref="fixture fit")
+    reference_doses = []
+
+    def capture_blocks(render):
+        blocks = [[] for _ in layers]
+        with ExitStack() as hooks:
+            for layer, rows in zip(layers, blocks, strict=True):
+                def record(_layer, _args, output, rows=rows):
+                    rows.append(output[0].clone())
+                hooks.callback(layer.register_forward_hook(record).remove)
+            return render(), blocks
+
+    def full_prefix_reference(_layer, args):
+        hidden = args[0]
+        edited, coefficients = fitted(hidden[:, first_prediction:], strength)
+        assert coefficients.dtype == torch.bfloat16
+        reference_doses.append((coefficients.new_tensor(strength) * coefficients).flatten().tolist())
+        return (torch.cat((hidden[:, :first_prediction], edited), dim=1), *args[1:])
+
+    with torch.autocast("cpu", dtype=torch.bfloat16), torch.no_grad():
+        result, actual = capture_blocks(lambda: generate(native, steering=plan, **dict(request, strength=strength)))
+        with layers[0].register_forward_pre_hook(full_prefix_reference):
+            expected, reference = capture_blocks(lambda: original(native, **dict(request, strength=0.)))
+        zero, zero_blocks = capture_blocks(lambda: generate(native, steering=plan, **dict(request, strength=0.)))
+        off, off_blocks = capture_blocks(lambda: original(native, **dict(request, strength=0.)))
+
+    assert result.native["new_token_ids"] == expected.native["new_token_ids"] == [0, 0, 0]
+    assert zero.native["new_token_ids"] == off.native["new_token_ids"] == [0, 0, 0]
+    assert all(dose > 0 for dose in reference_doses[-1])
+    for actual_rows, reference_rows in zip(actual, reference, strict=True):
+        assert all(torch.equal(row, expected) for row, expected in zip(actual_rows, reference_rows, strict=True))
+    for zero_rows, off_rows in zip(zero_blocks, off_blocks, strict=True):
+        assert all(torch.equal(row, expected) for row, expected in zip(zero_rows, off_rows, strict=True))
+    trace = result.native["adaptive_steering"]
+    doses = trace["effective_strengths"]
+    assert [step["prefix_position"] for step in trace["prefix_steps"]] == [1, 2, 3]
+    assert all(doses[:i + 1] == expected for i, expected in enumerate(reference_doses))
+    assert zero.native["adaptive_steering"]["effective_strengths"] == [0., 0., 0.]
 
 
 def test_adaptive_raw_failure_restores_hook_and_multiplier_state(native, core, monkeypatch):
